@@ -1,36 +1,36 @@
 ﻿using PlannerApplication.Core.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PlannerApplication.Core.Entities.EventAggregate
 {
-    public class Event : BaseEntity, IEntity, IAggregateRoot
+    public class Event : BaseEntity, IAggregateRoot
     {
-        [Required]
         public string EventName { get; private set; }
         public string EventDescription { get; private set; }
         public EventLocation Location { get; private set; }
-        [Required]
-        public DateTime StartDate { get; private set; }
-        [Required]
-        public DateTime EndDate { get; private set; }
+        public EventTime EventTime { get; private set; }
         public EventStatus EventStatus { get; private set; }
 
-        private readonly List<int> _participants = [];
-        public IReadOnlyCollection<int> Participants => _participants.AsReadOnly();
+        private readonly List<EventParticipant> _participants = [];
+        public IReadOnlyCollection<EventParticipant> Participants => _participants.AsReadOnly();
 
-        public Event(string eventName, string eventDescription, EventLocation location, DateTime startDate, DateTime endDate, EventStatus eventStatus)
+        public Event(string eventName, string eventDescription, EventLocation location, EventTime eventTime, EventStatus eventStatus)
         {
             EventName = eventName;
             EventDescription = eventDescription;
             Location = location;
-            StartDate = startDate;
-            EndDate = endDate;
+            EventTime = eventTime;
             EventStatus = eventStatus;
+        }
+
+        public void AddParticipant(EventParticipant participant)
+        {
+            _participants.Add(participant);
+        }
+
+        public void RemoveParticipant(EventParticipant participant)
+        {
+            _participants.Remove(participant);
         }
     } 
 }

@@ -19,6 +19,11 @@ namespace PlannerApplication.Core.Entities.CalendarAggregate
         private List<CalendarEvent> _calendarEvents = new List<CalendarEvent>();
         public IReadOnlyCollection<CalendarEvent> CalendarEvents => _calendarEvents.AsReadOnly();
 
+        public Calendar(string name, string description)
+        {
+            Name = name;
+            Description = description;
+        }
 
         public void AddCalendarEvent(CalendarEvent calendarEvent)
         {

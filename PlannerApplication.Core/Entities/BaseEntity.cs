@@ -1,17 +1,17 @@
-﻿using PlannerApplication.Core.Interfaces;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using PlannerApplication.Core.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace PlannerApplication.Core.Entities
 {
     public abstract class BaseEntity : IEntity
     {
-        [Required]
+        [BsonId, BsonRepresentation(BsonType.ObjectId)]
         public int Id { get; set; }
-        [Required]
-        public int CreatedBy { get; set; }
-        [Required]
+        public int? CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }
-        public int LastModifiedBy { get; set; }
+        public int? LastModifiedBy { get; set; }
         public DateTime LastModifiedOn { get; set; }
     }
 }
