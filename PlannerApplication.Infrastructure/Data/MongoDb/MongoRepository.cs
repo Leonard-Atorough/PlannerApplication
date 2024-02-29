@@ -8,11 +8,11 @@ namespace PlannerApplication.Infrastructure.Data.MongoDb
 {
     public class MongoRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
-        private readonly IDatabaseFactory _mongoDatabaseFactory;
+        private readonly IDatabaseFactory<IMongoDatabase> _mongoDatabaseFactory;
 
         private readonly IMongoCollection<TEntity> _collection;
 
-        public MongoRepository(IOptions<MongoDbSettings> mongoDbSettings, CancellationToken token = default, IDatabaseFactory mongoDatabaseFactory)
+        public MongoRepository(IDatabaseFactory<IMongoDatabase> mongoDatabaseFactory, CancellationToken token = default)
         {
             _mongoDatabaseFactory = mongoDatabaseFactory;
             _collection = CreateCollection(token).Result;
@@ -27,12 +27,14 @@ namespace PlannerApplication.Infrastructure.Data.MongoDb
 
         public bool Delete(TEntity entity)
         {
-            throw new NotImplementedException();
+            var filter = Builders<TEntity>.Filter.Eq(r => r.Id, entity.Id);
+
+            return _collection.DeleteOne(filter).DeletedCount > 0;
         }
 
         public IQueryable<TEntity> GetAll()
         {
-            throw new NotImplementedException();
+            return (IQueryable<TEntity>)_collection.Find(Builders<TEntity>.Filter.Empty);
         }
 
         public TEntity GetById(int id)

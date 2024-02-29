@@ -2,8 +2,8 @@
 
 namespace PlannerApplication.Infrastructure.Data
 {
-    public interface IDatabaseFactory
+    public interface IDatabaseFactory<T> where T : class
     {
-        Task<IMongoDatabase> Create(CancellationToken token);
+        Task<T> Create(CancellationToken token);
     }
 }

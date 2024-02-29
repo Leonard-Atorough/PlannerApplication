@@ -5,7 +5,7 @@ using PlannerApplication.Infrastructure.Configuration;
 
 namespace PlannerApplication.Infrastructure.Data.MongoDb
 {
-    public class MongoDatabaseFactory : IDatabaseFactory
+    public class MongoDatabaseFactory : IDatabaseFactory<IMongoDatabase>
     {
         private readonly MongoDbSettings _settings;
         private readonly ILogger _logger;
