@@ -10,7 +10,7 @@ namespace PlannerApplication.Infrastructure.Data
 {
     public interface IRepository<TEntity> where TEntity : BaseEntity
     {
-        bool Insert(TEntity entity);
+        void Insert(TEntity entity);
         bool Update(TEntity entity);
         bool Delete(TEntity entity);
         IQueryable<TEntity> SearchFor(Expression<Func<TEntity, bool>> predicate);
