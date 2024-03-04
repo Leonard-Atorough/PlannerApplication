@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PlannerApplication.Core.Entities.CalendarAggregate
 {
-    public class Calendar: BaseEntity, IEntity, IAggregateRoot
+    public class Calendar: BaseEntity, IAggregateRoot
     {
         public string Name { get; private set; }
         public string Description { get; private set; }

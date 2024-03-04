@@ -1,20 +1,15 @@
-﻿using PlannerApplication.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using PlannerApplication.Core.Interfaces;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PlannerApplication.Infrastructure.Data
 {
-    public interface IRepository<TEntity> where TEntity : BaseEntity
+    public interface IRepository<T> where T : class, IAggregateRoot, IEntity
     {
-        void Insert(TEntity entity);
-        bool Update(TEntity entity);
-        bool Delete(TEntity entity);
-        IQueryable<TEntity> SearchFor(Expression<Func<TEntity, bool>> predicate);
-        IQueryable<TEntity> GetAll();
-        TEntity GetById(int id);
+        void Insert(T entity);
+        bool Update(T entity);
+        bool Delete(T entity);
+        IQueryable<T> SearchFor(Expression<Func<T, bool>> predicate);
+        IQueryable<T> GetAll();
+        T? GetById(int id);
     }
 }

@@ -7,11 +7,11 @@ using System.Linq.Expressions;
 
 namespace PlannerApplication.Infrastructure.Data.MongoDb
 {
-    public class MongoRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
+    public class MongoRepository<T> : IRepository<T> where T : class, IAggregateRoot, IEntity
     {
         private readonly IDatabaseFactory<IMongoDatabase> _mongoDatabaseFactory;
 
-        private readonly IMongoCollection<TEntity> _collection;
+        private readonly IMongoCollection<T> _collection;
 
         public MongoRepository(IDatabaseFactory<IMongoDatabase> mongoDatabaseFactory, CancellationToken token = default)
         {
@@ -19,55 +19,48 @@ namespace PlannerApplication.Infrastructure.Data.MongoDb
             _collection = CreateCollection(token).Result;
         }
 
-        private async Task<IMongoCollection<TEntity>> CreateCollection(CancellationToken token)
+        public bool Delete(T entity)
         {
-            var database = await _mongoDatabaseFactory.Create(token);
-
-            return database.GetCollection<TEntity>(typeof(TEntity).Name);
-        }
-
-        public bool Delete(TEntity entity)
-        {
-            var filter = Builders<TEntity>.Filter.Eq(r => r.Id, entity.Id);
+            var filter = Builders<T>.Filter.Eq(r => r.Id, entity.Id);
 
             return _collection.DeleteOne(filter).DeletedCount > 0;
         }
 
-        public IQueryable<TEntity> GetAll()
+        public IQueryable<T> GetAll()
         {
-            return (IQueryable<TEntity>)_collection.Find(Builders<TEntity>.Filter.Empty);
+            return (IQueryable<T>)_collection.Find(Builders<T>.Filter.Empty);
         }
 
-        public TEntity GetById(int id)
+        public T? GetById(int id)
         {
             return _collection.AsQueryable().Where(r => r.Id == id).FirstOrDefault();
-            //try
-            //{
-            //    return _collection.AsQueryable().Where(r => r.Id == id).Single();
-
-            //}
-            //catch (ArgumentNullException)
-            //{
-            //    throw;
-            //}
         }
 
-        public void Insert(TEntity entity)
+        public void Insert(T entity)
         {
             _collection.InsertOne(entity);
         }
 
-        public IQueryable<TEntity> SearchFor(Expression<Func<TEntity, bool>> predicate)
+        public IQueryable<T> SearchFor(Expression<Func<T, bool>> predicate)
         {
-            return (IQueryable<TEntity>)_collection.AsQueryable<TEntity>().Where(predicate.Compile());
+            return (IQueryable<T>)_collection.AsQueryable<T>().Where(predicate.Compile());
         }
 
-        public bool Update(TEntity entity)
+        public bool Update(T entity)
         {
-            var filter = Builders<TEntity>.Filter.Eq(_ => _.Id, entity.Id);
-            var update = Builders<TEntity>.Update.Set(u => u, entity);
+            var filter = Builders<T>.Filter.Eq(_ => _.Id, entity.Id);
+            var update = Builders<T>.Update.Set(u => u, entity);
 
             return _collection.UpdateOne(filter, update).ModifiedCount > 0;
         }
+
+        #region Private Methods
+        private async Task<IMongoCollection<T>> CreateCollection(CancellationToken token)
+        {
+            var database = await _mongoDatabaseFactory.Create(token);
+
+            return database.GetCollection<T>(typeof(T).Name);
+        }
+        #endregion
     }
 }
