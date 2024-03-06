@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlannerApplication.Web", "PlannerApplication.Web\PlannerApplication.Web.csproj", "{CB05EFD1-E5E8-408D-8C64-9C99B4E4D26C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlannerApplication.Web", "PlannerApplication.Web\PlannerApplication.Web.csproj", "{CB05EFD1-E5E8-408D-8C64-9C99B4E4D26C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlannerApplication.Core", "PlannerApplication.Core\PlannerApplication.Core.csproj", "{3007EF6E-AE55-4713-BF30-041454307CF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlannerApplication.Core", "PlannerApplication.Core\PlannerApplication.Core.csproj", "{3007EF6E-AE55-4713-BF30-041454307CF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlannerApplication.Infrastructure", "PlannerApplication.Infrastructure\PlannerApplication.Infrastructure.csproj", "{3BAB9174-6960-458B-8C5D-4E4DD2C6EDE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlannerApplication.Infrastructure", "PlannerApplication.Infrastructure\PlannerApplication.Infrastructure.csproj", "{3BAB9174-6960-458B-8C5D-4E4DD2C6EDE4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{517A8C5D-ADC0-46DD-ADA5-C2F23D8CD600}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlannerApplication.UnitTests", "PlannerApplication.UnitTests\PlannerApplication.UnitTests.csproj", "{0E147E93-B3C1-403F-AF2A-132C9109AD20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +31,16 @@ Global
 		{3BAB9174-6960-458B-8C5D-4E4DD2C6EDE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BAB9174-6960-458B-8C5D-4E4DD2C6EDE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BAB9174-6960-458B-8C5D-4E4DD2C6EDE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E147E93-B3C1-403F-AF2A-132C9109AD20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E147E93-B3C1-403F-AF2A-132C9109AD20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E147E93-B3C1-403F-AF2A-132C9109AD20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E147E93-B3C1-403F-AF2A-132C9109AD20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0E147E93-B3C1-403F-AF2A-132C9109AD20} = {517A8C5D-ADC0-46DD-ADA5-C2F23D8CD600}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F445F8EA-E054-4272-BC44-828152F35C33}
