@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlannerApplication.Core.Entities.EventAggregate
+namespace PlannerApplication.Core.Entities.Shared
 {
     public class EventTime //Value Object
     {
@@ -16,8 +16,5 @@ namespace PlannerApplication.Core.Entities.EventAggregate
             StartDate = startDate;
             EndDate = endDate;
         }
-
-#pragma warning disable //required by EF Core
-        private EventTime(){ }
     }
 }

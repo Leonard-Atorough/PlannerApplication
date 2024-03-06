@@ -1,4 +1,5 @@
-﻿using PlannerApplication.Core.Interfaces;
+﻿using PlannerApplication.Core.Entities.Shared;
+using PlannerApplication.Core.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace PlannerApplication.Core.Entities.EventAggregate

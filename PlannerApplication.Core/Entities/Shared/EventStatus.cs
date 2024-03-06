@@ -1,4 +1,4 @@
-﻿namespace PlannerApplication.Core.Entities
+﻿namespace PlannerApplication.Core.Entities.Shared
 {
     public enum EventStatus
     {
