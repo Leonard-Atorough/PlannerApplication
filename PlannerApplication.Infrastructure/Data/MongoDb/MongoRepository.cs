@@ -26,9 +26,19 @@ namespace PlannerApplication.Infrastructure.Data.MongoDb
             return _collection.DeleteOne(filter).DeletedCount > 0;
         }
 
+        public Task<bool> DeleteAsync(T entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public IQueryable<T> GetAll()
         {
             return (IQueryable<T>)_collection.Find(Builders<T>.Filter.Empty);
+        }
+
+        public Task<IQueryable<T>> GetAllAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public T? GetById(int id)
@@ -36,14 +46,31 @@ namespace PlannerApplication.Infrastructure.Data.MongoDb
             return _collection.AsQueryable().Where(r => r.Id == id).FirstOrDefault();
         }
 
-        public void Insert(T entity)
+        public Task<T> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T Insert(T entity)
         {
             _collection.InsertOne(entity);
+            return entity;
+        }
+
+        public async Task<T> InsertAsync(T entity)
+        {
+            await _collection.InsertOneAsync(entity);
+            return entity;
         }
 
         public IQueryable<T> SearchFor(Expression<Func<T, bool>> predicate)
         {
             return (IQueryable<T>)_collection.AsQueryable<T>().Where(predicate.Compile());
+        }
+
+        public Task<IQueryable<T>> SearchForAsync(Expression<Func<T, bool>> predicate)
+        {
+            throw new NotImplementedException();
         }
 
         public bool Update(T entity)
@@ -52,6 +79,11 @@ namespace PlannerApplication.Infrastructure.Data.MongoDb
             var update = Builders<T>.Update.Set(u => u, entity);
 
             return _collection.UpdateOne(filter, update).ModifiedCount > 0;
+        }
+
+        public Task<bool> UpdateAsync(T entity)
+        {
+            throw new NotImplementedException();
         }
 
         #region Private Methods
