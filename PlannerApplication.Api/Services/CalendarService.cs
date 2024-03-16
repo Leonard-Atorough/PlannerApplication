@@ -12,7 +12,7 @@ namespace PlannerApplication.Api.Services
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
 
-        public CalendarService(IRepository<Calendar> repository, ILogger<CalendarService> logger, IMapper mapper)
+        public CalendarService(IRepository<Calendar> repository, ILogger logger, IMapper mapper)
         {
             _repository = repository;
             _logger = logger;

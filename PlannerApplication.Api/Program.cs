@@ -1,5 +1,7 @@
 using PlannerApplication.Api.Endpoints;
 using PlannerApplication.Api.Mappers;
+using PlannerApplication.Infrastructure.Data;
+using PlannerApplication.Infrastructure.Data.MongoDb;
 
 namespace PlannerApplication.Api
 {
@@ -15,6 +17,8 @@ namespace PlannerApplication.Api
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
 
             builder.Services.AddAutoMapper(typeof(DomainMappingProfile));
 

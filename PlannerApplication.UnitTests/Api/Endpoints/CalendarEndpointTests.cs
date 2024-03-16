@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using PlannerApplication.Api.Endpoints;
 using PlannerApplication.Api.Models.Calendar;
 using PlannerApplication.Api.Services;
 using PlannerApplication.Core.Entities.CalendarAggregate;
@@ -21,7 +22,7 @@ namespace PlannerApplication.UnitTests.Api.Endpoints
         private CreatedAtRoute<CreateCalendarResponse> _response;
 
         private IRepository<Calendar> _repository;
-        private ILogger<CalendarService> _logger;
+        private ILogger _logger;
         private IMapper _mapper;
 
         [Test]
@@ -39,7 +40,7 @@ namespace PlannerApplication.UnitTests.Api.Endpoints
             var fixture = new Fixture();
             _createCalendarRequest = fixture.Create<CreateCalendarRequest>();        
             _repository = Substitute.For<IRepository<Calendar>>();
-            _logger = Substitute.For<ILogger<CalendarService>>();
+            _logger = Substitute.For<ILogger>();
             _mapper = Substitute.For<IMapper>();
 
             _repository.InsertAsync(Arg.Any<Calendar>()).Returns(new Calendar("test", "tesy")
@@ -64,11 +65,13 @@ namespace PlannerApplication.UnitTests.Api.Endpoints
 
         private void A201CreatedResponseIsReturned()
         {
+            _response.ShouldNotBeNull();
             _response.StatusCode.ShouldBe(201);
         }
 
         private void TheResponseResultIsACreateCalendarResponse()
         {
+            _response.Value.ShouldNotBeNull();
             _response.Value.CalendarId.ShouldBe(1);
             _response.Value.ContributorId.ShouldBe(1);
             _response.Value.CalendarName.ShouldBe("test");

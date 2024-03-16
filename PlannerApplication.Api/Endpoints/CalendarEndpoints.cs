@@ -16,9 +16,9 @@ namespace PlannerApplication.Api.Endpoints
             routeGroup.MapPost("/v1/create", async Task<IResult> (
                 CreateCalendarRequest request,
                 IRepository<Calendar> repository,
-                ILogger<CalendarService> logger,
+                ILoggerFactory loggerFactory,
                 IMapper mapper) => await new CalendarService(
-                repository, logger, mapper).CreateCalendar(request));
+                repository, loggerFactory.CreateLogger(nameof(CalendarEndpoints)), mapper).CreateCalendar(request));
         }
     }
 }
