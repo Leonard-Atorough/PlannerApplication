@@ -19,7 +19,6 @@ namespace PlannerApplication.Api
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
-
             builder.Services.AddAutoMapper(typeof(DomainMappingProfile));
 
             var app = builder.Build();
@@ -34,6 +33,7 @@ namespace PlannerApplication.Api
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+
             app.MapCalendarEndpoints();
 
             app.Run();
