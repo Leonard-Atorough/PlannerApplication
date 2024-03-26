@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using PlannerApplication.Core.Entities;
 using PlannerApplication.Core.Interfaces;
@@ -16,7 +17,7 @@ namespace PlannerApplication.Infrastructure.Data.MongoDb
         public MongoRepository(IDatabaseFactory<IMongoDatabase> mongoDatabaseFactory, CancellationToken token = default)
         {
             _mongoDatabaseFactory = mongoDatabaseFactory;
-            _collection = CreateCollection().Result;
+            _collection = CreateCollection(token).Result;
         }
 
         public bool Delete(T entity)
@@ -41,12 +42,12 @@ namespace PlannerApplication.Infrastructure.Data.MongoDb
             throw new NotImplementedException();
         }
 
-        public T? GetById(int id)
+        public T? GetById(ObjectId id)
         {
             return _collection.AsQueryable().Where(r => r.Id == id).FirstOrDefault();
         }
 
-        public Task<T> GetByIdAsync(int id)
+        public Task<T> GetByIdAsync(ObjectId id)
         {
             throw new NotImplementedException();
         }
@@ -87,15 +88,18 @@ namespace PlannerApplication.Infrastructure.Data.MongoDb
         }
 
         #region Private Methods
-        private async Task<IMongoCollection<T>> CreateCollection()
+        private async Task<IMongoCollection<T>> CreateCollection(CancellationToken token)
         {
-            var database = await _mongoDatabaseFactory.Create(new CancellationToken());
-            var getCollectionMethod = database.GetType().GetMethod(nameof(IMongoDatabase.GetCollection));
-            var definition = getCollectionMethod!.GetGenericMethodDefinition();
-            var getCollection = getCollectionMethod.MakeGenericMethod(new Type[] { typeof(T) });
-            var result = getCollection!.Invoke(database, new object[] { nameof(T), new MongoCollectionSettings() });
+            var database = await _mongoDatabaseFactory.Create(token);
 
-            return (IMongoCollection<T>)result!;
+            string collectionName = GetCollectionName(typeof(T).FullName);
+
+            return database.GetCollection<T>(collectionName);
+        }
+
+        private string GetCollectionName(string? fullName)
+        {
+            return fullName!.Split('.').Last();
         }
         #endregion
     }

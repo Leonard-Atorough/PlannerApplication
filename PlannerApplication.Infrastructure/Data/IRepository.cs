@@ -1,4 +1,5 @@
-﻿using PlannerApplication.Core.Interfaces;
+﻿using MongoDB.Bson;
+using PlannerApplication.Core.Interfaces;
 using System.Linq.Expressions;
 
 namespace PlannerApplication.Infrastructure.Data
@@ -15,7 +16,7 @@ namespace PlannerApplication.Infrastructure.Data
         Task<IQueryable<T>> SearchForAsync(Expression<Func<T, bool>> predicate);
         IQueryable<T> GetAll();
         Task<IQueryable<T>> GetAllAsync();
-        T? GetById(int id);
-        Task<T> GetByIdAsync(int id);
+        T? GetById(ObjectId id);
+        Task<T> GetByIdAsync(ObjectId id);
     }
 }
