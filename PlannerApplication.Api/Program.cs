@@ -1,5 +1,7 @@
+using MongoDB.Driver;
 using PlannerApplication.Api.Endpoints;
 using PlannerApplication.Api.Mappers;
+using PlannerApplication.Infrastructure.Configuration;
 using PlannerApplication.Infrastructure.Data;
 using PlannerApplication.Infrastructure.Data.MongoDb;
 
@@ -19,6 +21,8 @@ namespace PlannerApplication.Api
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
+            builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection(nameof(MongoDbSettings)));
+            builder.Services.AddSingleton(typeof(IDatabaseFactory<IMongoDatabase>), typeof(MongoDatabaseFactory));
             builder.Services.AddAutoMapper(typeof(DomainMappingProfile));
 
             var app = builder.Build();

@@ -16,7 +16,7 @@ namespace PlannerApplication.Infrastructure.Data.MongoDb
         public MongoRepository(IDatabaseFactory<IMongoDatabase> mongoDatabaseFactory, CancellationToken token = default)
         {
             _mongoDatabaseFactory = mongoDatabaseFactory;
-            _collection = CreateCollection(token).Result;
+            _collection = CreateCollection().Result;
         }
 
         public bool Delete(T entity)
@@ -87,11 +87,15 @@ namespace PlannerApplication.Infrastructure.Data.MongoDb
         }
 
         #region Private Methods
-        private async Task<IMongoCollection<T>> CreateCollection(CancellationToken token)
+        private async Task<IMongoCollection<T>> CreateCollection()
         {
-            var database = await _mongoDatabaseFactory.Create(token);
+            var database = await _mongoDatabaseFactory.Create(new CancellationToken());
+            var getCollectionMethod = database.GetType().GetMethod(nameof(IMongoDatabase.GetCollection));
+            var definition = getCollectionMethod!.GetGenericMethodDefinition();
+            var getCollection = getCollectionMethod.MakeGenericMethod(new Type[] { typeof(T) });
+            var result = getCollection!.Invoke(database, new object[] { nameof(T), new MongoCollectionSettings() });
 
-            return database.GetCollection<T>(typeof(T).Name);
+            return (IMongoCollection<T>)result!;
         }
         #endregion
     }
