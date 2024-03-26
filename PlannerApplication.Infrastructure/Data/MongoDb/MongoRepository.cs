@@ -43,7 +43,8 @@ namespace PlannerApplication.Infrastructure.Data.MongoDb
 
         public T? GetById(int id)
         {
-            return _collection.AsQueryable().Where(r => r.Id == id).FirstOrDefault();
+            throw new NotImplementedException();
+            //return _collection.AsQueryable().Where(r => r.Id == id).FirstOrDefault();
         }
 
         public Task<T> GetByIdAsync(int id)
