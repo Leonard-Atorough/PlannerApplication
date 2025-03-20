@@ -25,7 +25,7 @@ namespace PlannerApplication.Api.Services
             var result = await _repository.InsertAsync(input);
 
             var response = _mapper.Map<CreateCalendarResponse>(result);
-            return TypedResults.CreatedAtRoute(response);
+            return TypedResults.Created("null", response);
         }
     }
 }
