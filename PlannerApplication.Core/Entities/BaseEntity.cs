@@ -10,7 +10,7 @@ namespace PlannerApplication.Core.Entities
         [BsonId, BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }
         public int? CreatedBy { get; set; }
-        public DateTime CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
         public int? LastModifiedBy { get; set; }
         public DateTime LastModifiedOn { get; set; }
     }
